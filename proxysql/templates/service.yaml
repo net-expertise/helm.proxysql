@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "proxysql.fullname" . }}
+  labels:
+{{ include "proxysql.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.pod.port }}
+      protocol: TCP
+      name: proxysql
+  selector:
+    app.kubernetes.io/name: {{ include "proxysql.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "proxysql.fullname" . }}-admin
+  labels:
+{{ include "proxysql.labels" . | indent 4 }}
+  {{- with .Values.adminservice.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: LoadBalancer
+  ports:
+    - port: {{ .Values.service.adminPort }}
+      targetPort: {{ .Values.pod.adminPort }}
+      protocol: TCP
+      name: proxysql
+  selector:
+    app.kubernetes.io/name: {{ include "proxysql.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+---
+{{- if .Values.ingress.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "proxysql.fullname" . }}-stat
+  labels:
+{{ include "proxysql.labels" . | indent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.statPort }}
+      targetPort: {{ .Values.pod.statPort }}
+      protocol: TCP
+      name: proxysql
+  selector:
+    app.kubernetes.io/name: {{ include "proxysql.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+

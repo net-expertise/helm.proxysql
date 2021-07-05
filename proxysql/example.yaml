@@ -1,0 +1,34 @@
+replicaCount: 1
+
+#ingress:
+#  enabled: true
+#  annotations:
+#    kubernetes.io/ingress.class: private-iks-k8s-nginx
+#    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+#  hosts:
+#    - host: proxy.domain.lan
+#      paths:
+#        - /
+
+adminservice:
+  annotations:
+
+sqlqueries: |
+  --
+  -- SET mysql-have_ssl='true';
+  -- LOAD MYSQL VARIABLES TO RUNTIME;
+  -- SET admin-web_enabled='true';
+  -- LOAD ADMIN VARIABLES TO RUNTIME;
+  --
+  INSERT INTO mysql_servers (hostgroup_id,hostname) VALUES (0,'db1.domain.lan');
+  INSERT INTO mysql_servers (hostgroup_id,hostname) VALUES (1,'db2.domain.lan');
+  --
+  INSERT INTO mysql_users (username,password,use_ssl,default_hostgroup) VALUES ('proxy','*9EF51D21B4A3E7BC7A58925308F229CF4AEEC9E1',1,0);
+  --
+  INSERT INTO mysql_query_rules_fast_routing (username,schemaname,destination_hostgroup, comment) VALUES ('proxy','schema1',0,'');
+  INSERT INTO mysql_query_rules_fast_routing (username,schemaname,destination_hostgroup, comment) VALUES ('proxy','schema2',1,'');
+  --
+  LOAD MYSQL USERS TO RUNTIME;
+  LOAD MYSQL SERVERS TO RUNTIME;
+  LOAD MYSQL QUERY RULES TO RUNTIME;
+  
