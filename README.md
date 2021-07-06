@@ -4,6 +4,8 @@ Proxysql cluster to install on Kubernetes
 
 Inspired by https://github.com/ProxySQL/kubernetes
 
+More details at https://www.netexpertise.eu/en/database/mysql/proxysql-helm-chart-load-rules-from-sql-query-set.html
+
 ## Chart Details
 
 This chart will do the following:
