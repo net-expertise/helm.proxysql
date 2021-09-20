@@ -46,8 +46,8 @@ spec:
               mountPath: /etc/proxysql.cnf
               subPath: proxysql.cnf
             - name: {{ .Release.Name }}-config
-              mountPath: /docker-entrypoint-initdb.d
-              subpath: sqlqueries
+              mountPath: /docker-entrypoint-initdb.d/sqlqueries
+              subPath: sqlqueries
           livenessProbe:
             exec:
               command: ["/bin/bash","/usr/local/bin/probe-proxysql.bash"]
