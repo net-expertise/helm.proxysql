@@ -15,6 +15,12 @@ adminservice:
 
 sqlqueries: |
   --
+  -- Bring own SSL certs
+  -- Create proxysql secret with ca.crt, tls.crt, tls.key
+  -- system test -e /var/lib/proxysql/certs/proxysql-ca.pem   && cat /var/lib/proxysql/certs/proxysql-ca.pem   > /var/lib/proxysql/proxysql-ca.pem
+  -- system test -e /var/lib/proxysql/certs/proxysql-cert.pem && cat /var/lib/proxysql/certs/proxysql-cert.pem > /var/lib/proxysql/proxysql-cert.pem
+  -- system test -e /var/lib/proxysql/certs/proxysql-key.pem  && cat /var/lib/proxysql/certs/proxysql-key.pem  > /var/lib/proxysql/proxysql-key.pem
+  -- PROXYSQL RELOAD TLS;
   -- SET mysql-have_ssl='true';
   -- LOAD MYSQL VARIABLES TO RUNTIME;
   -- SET admin-web_enabled='true';

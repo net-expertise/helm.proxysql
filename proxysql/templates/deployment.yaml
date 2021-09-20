@@ -48,6 +48,9 @@ spec:
             - name: {{ .Release.Name }}-config
               mountPath: /docker-entrypoint-initdb.d/sqlqueries
               subPath: sqlqueries
+            - name: tls
+              mountPath: "/var/lib/proxysql/certs"
+              readOnly: true
           livenessProbe:
             exec:
               command: ["/bin/bash","/usr/local/bin/probe-proxysql.bash"]
@@ -72,3 +75,15 @@ spec:
         - name: {{ .Release.Name }}-config
           configMap:
             name: {{ .Release.Name }}-proxysqlcm
+        - name: tls
+          secret:
+            secretName: proxysql
+            optional: true
+            items:
+            - key: ca.crt
+              path: proxysql-ca.pem
+            - key: tls.crt
+              path: proxysql-cert.pem
+            - key: tls.key
+              path: proxysql-key.pem
+
