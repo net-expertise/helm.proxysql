@@ -23,3 +23,9 @@ To install the chart with the release name `my-release`:
 $ helm install my-release -f example.yaml ./proxysql
 ```
 
+## Bring your own certificate
+
+Create a "proxysql" tls secret
+including ca.crt, tls.crt and key.crt
+Uncomment cert copies commands in value file
+
