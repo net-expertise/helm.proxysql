@@ -35,7 +35,7 @@ spec:
             - name: admin
               containerPort: {{ .Values.pod.adminPort }}
               protocol: TCP
-            - name: stat
+            - name: stats
               containerPort: {{ .Values.pod.statPort }}
               protocol: TCP
           volumeMounts:

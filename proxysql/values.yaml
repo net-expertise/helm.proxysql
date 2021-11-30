@@ -32,7 +32,7 @@ ingress:
   hosts:
     - host: localhost
       paths:
-        - /
+        - path: /
 
   tls: []
   #  - secretName: chart-example-tls
